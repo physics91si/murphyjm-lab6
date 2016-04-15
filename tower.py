@@ -7,9 +7,16 @@ from scipy import integrate
 
 t, v = np.loadtxt('droptower_vdata.txt', unpack=True)
 x = integrate.cumtrapz(v, t, initial=0)
-a = np.diff(v)
+a = list(np.diff(v))
 
-a = a.itemset(0)
-print(len(a), len(x), len(v))
-#plt.plot(v,t, x,t, a,t)
+a = [0] + a
+
+z = (x, v, a)
+labels = ('position', 'velocity', 'acceleration')
+
+for y, name in zip(z, labels):
+	plt.plot(t,y, label=name)
+
+plt.legend()
+plt.title('Droptower Kinematics')
 plt.show()
